@@ -18,6 +18,7 @@ use \App\Models\Question;
 use \App\Models\Answer;
 
 use App\Http\Requests\AnswerRequest;
+use Carbon\Carbon;
 
 
 class ApiProductController extends Controller
@@ -68,6 +69,8 @@ class ApiProductController extends Controller
             foreach($item->attributes as $key => $attribute) {
                 $item->attributes2[$attribute->id] = $attribute;
             }
+
+            //dd($item);
 
             $brand = Vehiclebrand::firstOrCreate(
                 ['name' => strtoupper($item->attributes2["BRAND"]->value_name)],
@@ -136,7 +139,7 @@ class ApiProductController extends Controller
                     'segment_id' => $segment,
                     'title' => $item->title,
 					'color' => $item->attributes2["COLOR"]->value_name, 
-					'kilometers' => $item->attributes2["KILOMETERS"]->value_struct->number, 
+					'kilometers' => $item->attributes2["KILOMETERS"]->values[0]->struct->number, 
 					'price' => $item->price,
 					'year' => $item->attributes2["VEHICLE_YEAR"]->value_name,
 					'status' => $item->status == 'active',
@@ -160,7 +163,7 @@ class ApiProductController extends Controller
                 Question::updateOrCreate(
                     ['id' => $question->id],
                     [
-                        'date_created'  => $question->date_created,
+                        'date_created'  => Carbon::parse($question->date_created)->toDateTimeString(),
                         'item_id'       => $question->item_id,
                         'status'        => $question->status,
                         'text'          => $question->text,
@@ -172,7 +175,7 @@ class ApiProductController extends Controller
                     Answer::updateOrCreate(
                         ['text' => $question->answer->text],
                         [
-                            'date_created'  => $question->answer->date_created,
+                            'date_created'  => Carbon::parse($question->answer->date_created)->toDateTimeString(),
                             'question_id'   => $question->id,
                             'status'        => $question->answer->status,
                             'text'          => $question->answer->text,
@@ -268,13 +271,11 @@ class ApiProductController extends Controller
          $productData['text'] = $request->input('answer');
  
          $questions = $this->meliService->publishAnswer($productData);
+
+         //dd($questions);
  
-         dd($questions);
- 
-         return view('notifications.answer')->with([
-             'question' => $question,
-             ]);
-     }
+         return view('notifications.index')->withSuccess("La respuesta fue enviada correctamente");
+     } 
 
     public function publishProduct(Request $request)
     {

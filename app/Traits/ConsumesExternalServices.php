@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 trait ConsumesExternalServices
 {
-    public function makeRequest($method, $requestUrl, $queryParams = [], $formParams = [], $headers = [], $hasFile = false)
+    public function makeRequest($method, $requestUrl, $queryParams = [], $formParams = [], $headers = [], $hasFile = false, $isJson = false)
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
@@ -16,8 +16,9 @@ trait ConsumesExternalServices
             $this->resolveAuthorization($queryParams, $formParams, $headers);
         }
 
-        $bodyType = 'form_params';
-        //$bodyType = 'json';
+
+        $bodyType = ($isJson) ? 'json' : 'form_params';
+
 
         if ($hasFile) {
             $bodyType = 'multipart';

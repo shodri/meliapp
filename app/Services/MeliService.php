@@ -61,7 +61,8 @@ class MeliService
             [], 
             $productData, 
             ['Content-Type' => 'application/json'], 
-            $hasFile = false
+            $hasFile = false,
+            $isJson = true
         );
     }
 
