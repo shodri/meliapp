@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Attribute extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'meli_id',
+        'type',
+    ];
+
+    public function vehicles()
+    {
+        return $this->belongsToMany(Vehicle::class);
+    }
+
+}

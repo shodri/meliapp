@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\MeliService;
 use App\Http\Controllers\Controller;
 
+use \App\Models\Attribute;
+use \App\Models\AttributeVehicle;
 use \App\Models\Currency;
 use \App\Models\Fuel;
 use \App\Models\Location;
@@ -18,6 +20,7 @@ use \App\Models\Question;
 use \App\Models\Answer;
 
 use App\Http\Requests\AnswerRequest;
+use App\Http\Controllers\Panel\DB;
 use Carbon\Carbon;
 
 
@@ -48,7 +51,7 @@ class ApiProductController extends Controller
     {
         $vehicles = $this->meliService->getVehicles();
 		//$procId = date('YmdHis');
-       // dd($vehicles);
+        //dd($vehicles);
 
             foreach($vehicles->results as $meliId) {
                 $id = $this->updateVehicle($meliId);
@@ -63,14 +66,17 @@ class ApiProductController extends Controller
     public function updateVehicle($meliId)
     {
         $item = $this->meliService->getItem($meliId);
+        //dd($item);
 
         if ($item->category_id == 'MLU1744') {
 
             foreach($item->attributes as $key => $attribute) {
+
                 $item->attributes2[$attribute->id] = $attribute;
+
             }
 
-            //dd($item);
+            
 
             $brand = Vehiclebrand::firstOrCreate(
                 ['name' => strtoupper($item->attributes2["BRAND"]->value_name)],
@@ -115,15 +121,19 @@ class ApiProductController extends Controller
             $location = Location::updateOrCreate(
                 [ 'meli_id' => $item->seller_address->id],
                 [
-                    'address' => $item->seller_address->address_line,
-                    'country' => $item->seller_address->country->name,
-                    'province' => $item->seller_address->state->name,
-                    'city' => $item->seller_address->city->name,
-                    'lat' => $item->seller_address->latitude,
-                    'long' => $item->seller_address->longitude,
+                    'address' =>    $item->seller_address->address_line,
+                    'country' =>    $item->seller_address->country->name,
+                    'country_id' => $item->seller_address->country->id ? $item->seller_address->country->id : "",
+                    'state' =>      $item->seller_address->state->name,
+                    'state_id' =>   $item->seller_address->state->id,
+                    'city' =>       $item->seller_address->city->name,
+                    'city_id' =>    $item->seller_address->city->id,
+                    'zip_code' =>   $item->seller_address->zip_code,
+                    'lat' =>        $item->seller_address->latitude,
+                    'long' =>       $item->seller_address->longitude,
                     //'seller' => $item->seller_contact->contact,
-					'telephone' => trim($item->seller_contact->country_code . ' ' . $item->seller_contact->area_code . ' ' . $item->seller_contact->phone),
-					'email' => $item->seller_contact->email,
+					'telephone' =>  trim($item->seller_contact->country_code . ' ' . $item->seller_contact->area_code . ' ' . $item->seller_contact->phone),
+					'email' =>      $item->seller_contact->email,
                 ]
             );
 
@@ -142,6 +152,11 @@ class ApiProductController extends Controller
 					'kilometers' => $item->attributes2["KILOMETERS"]->values[0]->struct->number, 
 					'price' => $item->price,
 					'year' => $item->attributes2["VEHICLE_YEAR"]->value_name,
+					'license_plate' => (isset($item->attributes2["LICENSE_PLATE"]->value_name)) ? $item->attributes2["DOORS"]->value_name : "",
+					'motor' => (isset($item->attributes2["ENGINE"]->value_name)) ? $item->attributes2["ENGINE"]->value_name : "",
+					'steering' => (isset($item->attributes2["STEERING"]->value_name)) ? $item->attributes2["STEERING"]->value_name : "",
+					'doors' => (isset($item->attributes2["DOORS"]->value_name)) ? $item->attributes2["DOORS"]->value_name : "",
+					'condition' => (isset($item->attributes2["ITEM_CONDITION"]->value_name)) ? $item->attributes2["ITEM_CONDITION"]->value_name : "",
 					'status' => $item->status == 'active',
 					'created_at' => $item->date_created,
 					'updated_at' => $item->last_updated,
@@ -150,6 +165,28 @@ class ApiProductController extends Controller
 					
                 ],
             );
+
+            $attributeIds = [];
+
+            foreach ($item->attributes as $attribute) {
+                $attributeModel = Attribute::updateOrCreate(
+                    ['name' => $attribute->name],
+                    [
+                        'name' => $attribute->name,
+                        'meli_id' => $attribute->id,
+                        'type' => $attribute->value_type,
+                    ]
+                );
+        
+                $attributeId = $attributeModel->id;
+                $attributeIds[$attribute->id] = $attributeId;
+        
+                AttributeVehicle::create([
+                    'vehicle_id' => $vehicle->id,
+                    'attribute_id' => $attributeId,
+                    'value' => $attribute->value_name,
+                ]);
+            }
 
             foreach ($item->pictures as $image){
                 $vehicle->images()->create([
@@ -188,26 +225,54 @@ class ApiProductController extends Controller
             return $vehicle->id;
     }
 
+    public function getBrands()
+    {
+        $brands = $this->meliService->getBrands();
+        dd($brands);
+        foreach ($brands as $brand){
+            $brand = Vehiclebrand::firstOrCreate(
+                ['name' => strtoupper($item->attributes2["BRAND"]->value_name)],
+                ['id' => $item->attributes2["BRAND"]->value_id],
+            );  
+        }
+
+    }
+
+    public function getModels()
+    {
+        $models = $this->meliService->getModels();
+        dd($models);
+        foreach ($brands as $brand){
+            $brand = Vehiclebrand::firstOrCreate(
+                ['name' => strtoupper($item->attributes2["BRAND"]->value_name)],
+                ['id' => $item->attributes2["BRAND"]->value_id],
+            );  
+        }
+    }
+
     public function getItemDescription($meliId)
     {
         $description = $this->meliService->getDescription($meliId);
-
         if($description){
             return $description->plain_text;
         }else{
             return null;
         }
-
     }
 
     public function getItemQuestions($meliId)
     {
         $questions = $this->meliService->getQuestions($meliId);
         return $questions->questions;
-
     }
 
-
+    public function answerQuestion(AnswerRequest $request, Question $question)
+    {
+        $productData['question_id'] = $question->id;
+        $productData['text'] = $request->input('answer');
+        $questions = $this->meliService->publishAnswer($productData);
+        return view('notifications.index')->withSuccess("La respuesta fue enviada correctamente");
+    } 
 
     public function showVehicle($meliId)
     {
@@ -217,6 +282,23 @@ class ApiProductController extends Controller
                 'product' => $vehicle,
             ]);
     }
+
+
+    public function getErrorImage($imageId)
+    {
+        $error = $this->meliService->getErrorImage($imageId);
+        dd($error);
+    }
+
+    public function pausePublication(Vehicle $vehicle)
+    {
+        $resp = $this->meliService->pausePublication($vehicle->meli_id);
+        dd($resp);
+    }
+
+
+
+
 
     public function showProduct($title, $id)
     {
@@ -264,18 +346,7 @@ class ApiProductController extends Controller
      *
      */
 
-     public function answerQuestion(AnswerRequest $request, Question $question)
-     {
- 
-         $productData['question_id'] = $question->id;
-         $productData['text'] = $request->input('answer');
- 
-         $questions = $this->meliService->publishAnswer($productData);
 
-         //dd($questions);
- 
-         return view('notifications.index')->withSuccess("La respuesta fue enviada correctamente");
-     } 
 
     public function publishProduct(Request $request)
     {

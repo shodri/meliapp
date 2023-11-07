@@ -21,7 +21,7 @@
                     <div class="card-body">
                         
                         <div class="d-flex justify-content-between align-items-center">
-                            <h1>Listado de Vehiculos usados</h1>
+                            <h1>Listado de Vehiculos {{$condition}}</h1>
                             <a class="btn btn-success" href="{{ route('vehicles.create') }}">
                                 <i class="fas fa-plus"></i>
                                 &nbsp;
@@ -40,7 +40,7 @@
                                         <td>{{ $vehicle->year }}</td>
                                         <td>{{ $vehicle->brand->name }}</td>
                                         <td>{{ $vehicle->model->name }}</td>
-                                        <td>{{ $vehicle->version->name }}</td>
+                                        <td>{{ (isset($vehicle->version->name)) ? $vehicle->version->name : '' }}</td>
                                         <td>{{ $vehicle->location->address }}</td>
                                         <td>${{ number_format($vehicle->price, 0, ',', '.') }}.-</td>
                                         <td>{{ ($vehicle->meli_id == "") ? "No" : "Si" }}</td>
@@ -50,6 +50,10 @@
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             @if($vehicle->meli_id == "")
+                                                <a class="btn btn-success"
+                                                    href="{{ route('vehicles.publish', ['vehicle' => $vehicle->id]) }}">
+                                                    <i class="fas fa-upload"></i>
+                                                </a>
                                                 <form class="d-inline" method="POST"
                                                     action="{{ route('vehicles.destroy', ['vehicle' => $vehicle->id]) }}">
                                                     @csrf

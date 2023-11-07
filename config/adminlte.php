@@ -347,8 +347,15 @@ return [
             'label_color' => 'success',
         ],
         [
-            'text'        => 'Vehiculos',
-            'url'         => 'panel/vehicles',
+            'text'        => 'Vehiculos usados',
+            'url'         => 'panel/vehicles/condition/usados',
+            'icon'        => 'fas fa-car',
+            // 'label'       => 4,
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Vehiculos 0km',
+            'url'         => 'panel/vehicles/condition/0km',
             'icon'        => 'fas fa-car',
             // 'label'       => 4,
             'label_color' => 'success',
@@ -483,7 +490,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('name')->default('');
             $table->string('address');
             $table->string('country');
-            $table->string('province');
+            $table->string('country_id');
+            $table->string('state');
+            $table->string('state_id');
             $table->string('city');
+            $table->string('city_id');
+            $table->string('zip_code');
             $table->string('lat');
             $table->string('long');
             $table->string('telephone')->nullable();

@@ -34,10 +34,12 @@ class NotificationController extends Controller
         // At next, we define a hardcoded variable with the explained format,
         // but you can assume this data comes from a database query.
 
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::pluck('meli_id');
 
-        foreach($vehicles as $vehicle){
-            $questions = $this->meliService->getQuestions($vehicle->meli_id);
+        foreach($vehicles as $meli_id){
+            //dd($vehicle->meli_id);
+            if($meli_id == '') continue;
+            $questions = $this->meliService->getQuestions($meli_id);
 
             foreach($questions->questions as $question){
                 Question::updateOrCreate(
@@ -68,7 +70,7 @@ class NotificationController extends Controller
         $questions = Question::where('status', 'UNANSWERED')->orderBy('updated_at','desc')->get();
 
         $currentTimestamp = now(); // Obtener la fecha y hora actual
-        $questionTimestamp = $questions->first()->updated_at;
+        $questionTimestamp = Carbon::parse($questions->first()->date_created);
         $difference = $questionTimestamp->diffForHumans($currentTimestamp);
 
         $notifications = [
@@ -128,10 +130,10 @@ class NotificationController extends Controller
 
     public function index()
     {
-        $questions = Question::where('status', 'UNANSWERED')->orderBy('updated_at','desc')->get();
+        $questions = Question::where('status', 'ANSWERED')->orderBy('date_created','desc')->get();
 
         foreach ($questions as $question) {
-            $fecha = Carbon::parse($question->updated_at);
+            $fecha = Carbon::parse($question->date_created);
             $ahora = Carbon::now();
             $question->interval = $fecha->diffForHumans($ahora);
         }
@@ -144,9 +146,10 @@ class NotificationController extends Controller
 
     public function question(Question $question)
     {
-    //    dd($question);
-
+        $user = $this->meliService->getUser($question->from);
+        //dd($user);
         return view('notifications.answer')->with([
+            'user' => $user,
             'question' => $question,
             ]);
     }

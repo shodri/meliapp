@@ -4,52 +4,8 @@
 
 
 
-@font-face {
-    font-family: 'Medium';
-    src: url('../fonts/fordantennawgl-medium.eot');
-    src: url('../fonts/fordantennawgl-medium.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/fordantennawgl-medium.woff') format('woff'),
-         url('../fonts/fordantennawgl-medium.ttf') format('truetype'),
-         url('../fonts/fordantennawgl-medium.svg#fordantennawgl-medium') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
-@font-face {
-    font-family: 'Bold';
-    src: url('../fonts/fordantennawgl-bold.eot');
-    src: url('../fonts/fordantennawgl-bold.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/fordantennawgl-bold.woff') format('woff'),
-         url('../fonts/fordantennawgl-bold.ttf') format('truetype'),
-         url('../fonts/fordantennawgl-bold.svg#fordantennawgl-bold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Regular';
-    src: url('../fonts/fordantennawgl-light.eot');
-    src: url('../fonts/fordantennawgl-light.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/fordantennawgl-light.woff') format('woff'),
-         url('../fonts/fordantennawgl-light.ttf') format('truetype'),
-         url('../fonts/fordantennawgl-light.svg#fordantennawgl-light') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Thin';
-    src: url('../fonts/fordantennawgl-thin.eot');
-    src: url('../fonts/fordantennawgl-thin.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/fordantennawgl-thin.woff') format('woff'),
-         url('../fonts/fordantennawgl-thin.ttf') format('truetype'),
-         url('../fonts/fordantennawgl-thin.svg#fordantennawgl-thin') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
 
 
 
@@ -66,7 +22,8 @@
 
 body {
    font-size: 15px;
-   font-family:"Regular",Helvetica Neue,Helvetica,Roboto,Arial;font-style:normal;
+   font-family:'Poppins', sans-serif;
+   font-weight:400;
   
 }
 
@@ -91,7 +48,10 @@ a:focus {
   text-decoration: none;
 }
 
-.life {font-family:"Regular",sans-serif}
+.life {
+	font-size: 15px;
+   font-family:'Poppins', sans-serif;
+   font-weight:700;}
 
 .glyphicon  {
 	font-size: 0.7em;
@@ -108,16 +68,13 @@ a:focus {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6,
+
 .h1,
 .h2,
 .h3,
-.h4,
-.h5,
-.h6 {
-  font-family:"Regular",Helvetica Neue,Helvetica,Roboto,Arial;font-style:normal;font-weight:400;
+ {
+   font-family:'Poppins', sans-serif;
+   font-weight:900;
   line-height: 1.1;
   color: inherit;
 }
@@ -132,7 +89,7 @@ h1, .h1 {
 }
 
 .foolink,.foolink:visited  {
-  font-family: "Regular",sans-serif;
+  font-family: 'Poppins', sans-serif;
 	font-size: 14px;
 	color: #cfcfcf;
   text-decoration: none; 
@@ -234,9 +191,10 @@ background-color:#d1d1d1; padding:30px;
 }
 
 .btn-cta, .btn-cta:visited {
-font-family: "Regular",sans-serif;
+font-family: 'Poppins', sans-serif;
 	border-radius:30px;
   padding:15px 40px 15px 40px;
+  font-weight:700;
   font-size:17px;
   text-align:center;
   color: #ffffff;
@@ -296,9 +254,7 @@ font-family: "Regular",sans-serif;
    background-color: #f1f1f1;
 }
 
-strong {
-  font-family: "Bold",sans-serif;
-}
+
 
 
 .conpad {
@@ -323,7 +279,7 @@ strong {
 .navbar-principal {
   z-index: 100;
   background-color: #ffffff;
-  font-family: "Medium",sans-serif;
+  font-family: 'Poppins',sans-serif;
   font-weight: 400;
 	letter-spacing:-1px;
   padding-left: 0;
@@ -440,7 +396,7 @@ strong {
  */
 
 .nav-tabs {
-  font-family: "Regular",sans-serif;
+  font-family: 'Poppins', ,sans-serif;
   background-color: #fbfbfb;
   border-bottom: 1px solid #c0c0c0;
    text-align:center;
@@ -513,7 +469,7 @@ strong {
  */
 
 .navbar-segundo{
-	font-family:"Medium",sans-serif;
+	font-family:'Poppins',sans-serif;
 	font-weight: 400;
 	font-size: 16px;
 	letter-spacing:-1px;
@@ -522,7 +478,7 @@ strong {
 	margin:0;
 }
 .navbar-segundo .navbar-brand {
-	font-family:"Bold",sans-serif;
+	font-family:'Poppins',sans-serif;
 	font-size: 16px;
 	background-color: #282828;
 	color: #ffffff;
@@ -760,7 +716,64 @@ strong {
     border-radius: 0;
 }
 
+.item-box-blog {
+    box-shadow: 0 5px 5px rgba(0,0,0,.4);
+    z-index: 4;
+    padding: 0px;
+	border-radius:15px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+	
+}
+.item-box-blog a:link, a:visited {
+    color: #1e1e1e;
+    text-decoration: none;
+    display: inline-block;
+}
+.item-box-blog-image {
+    position: relative;
+    display: flex;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    height: 220px;
+    overflow: hidden;
+    background-color: #dcdcdc;
+}
+.item-box-blog-body {
+    padding: 0px 20px 5px 20px;
+}
 
+.item-box-blog-text{
+    height: 40px;
+}
+
+.item-box-blog-date {
+    position: absolute;
+    z-index: 5;
+    padding: 4px;
+    bottom:140px; 
+    right: 25px;
+	border-radius:50%;
+    background-color: #ffffff;
+}
+
+.item-box-blog-date span {
+    color: #fff;
+    display: block;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.item-box-blog-date span.mon {
+    font-size: 13px;
+}
+
+.item-box-blog-image figure img {
+    width: 100%;
+    height: auto;
+}
 
 /*********************** IN BTN CONFIG ***********************/
 @media screen and (min-width:768px){

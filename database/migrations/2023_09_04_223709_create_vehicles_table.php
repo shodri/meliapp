@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('brand_id')->unsigned();
             $table->bigInteger('model_id')->unsigned();
-            $table->bigInteger('version_id')->unsigned();
+            $table->bigInteger('version_id')->unsigned()->nullable();
             $table->bigInteger('currency_id')->unsigned();
             $table->bigInteger('fuel_id')->unsigned();
             $table->bigInteger('location_id')->unsigned();
@@ -27,12 +27,19 @@ return new class extends Migration
             $table->integer('kilometers');
             $table->integer('price');
             $table->integer('year');
+            $table->string('license_plate')->nullable();
+            $table->string('motor')->nullable();
+            $table->string('doors')->nullable();
+            $table->string('steering')->nullable();
+            $table->string('condition');
+            $table->string('traction')->nullable();
             $table->longText('description')->nullable();
             $table->string('comments', 1000)->nullable();
             $table->bigInteger('telephone')->nullable();
             $table->string('email')->nullable();
             $table->string('status')->default('active');
             $table->string('meli_link')->nullable();
+            $table->string('listing_type_id')->nullable();
             $table->string('meli_id')->nullable();
 
             // $table->string('ml_id');
@@ -44,10 +51,11 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('brand_id')->references('id')->on('vehicle_brands');
-            $table->foreign('model_id')->references('id')->on('vehicle_models');
-            $table->foreign('version_id')->references('id')->on('vehicle_versions');
-            $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('fuel_id')->references('id')->on('fuels');
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('model_id')->references('id')->on('vehicle_models');
+            $table->foreign('segment_id')->references('id')->on('segments');
+            $table->foreign('version_id')->references('id')->on('vehicle_versions');
 
         });
     }

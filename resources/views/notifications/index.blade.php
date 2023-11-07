@@ -38,7 +38,8 @@
                                 @foreach ($questions as $question)
                                     <tr>
                                         <td>{{ $question->interval }}</td>
-                                        <td>{{ $question->vehicle->brand->name }} {{ $question->vehicle->model->name }} {{ $question->vehicle->version->name }} ({{ $question->vehicle->meli_id }}) </td>
+                                        <td>{{ $question->vehicle->brand->name }} {{ $question->vehicle->model->name }} {{ $question->vehicle->version->name }} {{ $question->vehicle->year }} ${{ $question->vehicle->price }} ({{ $question->vehicle->meli_id }}) </td>
+                                        <td>{{ $question->vehicle->meli_link }}</td>
                                         <td>{{ $question->text }}</td>
                                         <td>{{ $question->status }}</td>
                                         <td>
@@ -87,6 +88,10 @@
                     {
                         "data": "text",
                         "title": "Texto"
+                    },
+                    {
+                        "data": "link",
+                        "title": "Link"
                     },
                     {
                         "data": "status",

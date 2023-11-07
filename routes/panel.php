@@ -21,6 +21,10 @@ Route::get('/', 'PanelController@index')->name('panel');
 Route::get('user', [ApiProductController::class, 'showUser'])->name('products.showuser');
 
 
+Route::get('pausePublication/{vehicle}', [ApiProductController::class, 'pausePublication'])->name('meli.pausePublication');
+Route::get('geterrorimage/{image}', [ApiProductController::class, 'getErrorimage'])->name('meli.geterrorimage');
+Route::get('getbrands', [ApiProductController::class, 'getBrands'])->name('meli.getbrands');
+Route::get('getmodels', [ApiProductController::class, 'getModels'])->name('meli.getmodels');
 Route::get('updatevehicles', [ApiProductController::class, 'updateVehicles'])->name('meli.updatevehicles');
 Route::get('updatevehicle', [ApiProductController::class, 'updateVehicle'])->name('meli.updatevehicle');
 Route::get('description', [ApiProductController::class, 'getItemDescription'])->name('meli.getItemDescription');
@@ -35,21 +39,11 @@ Route::resource('notifications', 'NotificationController');
 
 Route::resource('banners', 'BannerController');
 
-
-
-
-Route::get('products/{title}-{id}', [ProductController::class, 'showProduct'])->name('products.show');
-
-Route::get('products/{title}-{id}/purchase', [ProductController::class, 'purchaseProduct'])->name('products.purchase');
-
-Route::get('products/publish', [ProductController::class, 'showPublishProductForm'])->name('products.publish');
-
-Route::post('products/publish', [ProductController::class, 'publishProduct']);
-
-
-Route::resource('products', 'ProductController');
-
 Route::resource('locations', 'LocationController');
+
+Route::get('vehicles/{vehicle}/publish', 'VehicleController@publish')->name('vehicles.publish');
+
+Route::get('vehicles/condition/{condition}', 'VehicleController@index')->name('vehicles.index');
 
 Route::resource('vehicles', 'VehicleController');
 
@@ -65,3 +59,15 @@ Route::get('users', 'UserController@index')->name('users.index');
 Route::post('users/admin/{user}', 'UserController@toggleAdmin')
     ->name('users.admin.toggle');
 
+
+
+Route::get('products/{title}-{id}', [ProductController::class, 'showProduct'])->name('products.show');
+
+Route::get('products/{title}-{id}/purchase', [ProductController::class, 'purchaseProduct'])->name('products.purchase');
+
+Route::get('products/publish', [ProductController::class, 'showPublishProductForm'])->name('products.publish');
+
+Route::post('products/publish', [ProductController::class, 'publishProduct']);
+
+
+Route::resource('products', 'ProductController');

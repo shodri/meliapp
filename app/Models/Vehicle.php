@@ -22,6 +22,13 @@ class Vehicle extends Model
         'kilometers',
         'price',
         'year',
+        'license_plate',
+        'motor',
+        'doors',
+        'steering',
+        'traccion',
+        'condition',
+        'attributes',
         'status',
         'created_at',
         'updated_at',
@@ -29,9 +36,14 @@ class Vehicle extends Model
         'comments',
         'status',
         'meli_link',
+        'listing_type_id',
         'meli_id',
     ];
 
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class);
+    }
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');

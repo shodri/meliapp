@@ -37,7 +37,7 @@ class FrontController extends Controller
         return $modelOptions;
     }
 
-    public function usados(Request $request)
+    public function vehicles(Request $request, $condition = null)
     {
 
         $brand = $request->input('brand');
@@ -53,6 +53,10 @@ class FrontController extends Controller
         $orderBy = $request->input('orderBy');
         $vehicles = Vehicle::query();
         $models = null;
+
+        if ($condition) {
+            $vehicles->where('condition', $condition);
+        }
 
         if ($brand) {
             $vehicles->where('brand_id', $brand);
@@ -96,7 +100,7 @@ class FrontController extends Controller
         //dd(\DB::getQueryLog());
         $brands = Vehiclebrand::all()->sortBy('year'); 
 
-        return view('front.usados')->with([
+        return view('front.vehicles')->with([
             'vehicles' => $vehicles,
             'brands' => $brands,
             'models' => $models,
@@ -111,7 +115,7 @@ class FrontController extends Controller
         ]);
     }
 
-    public function usado(Vehicle $vehicle)
+    public function vehicle(Vehicle $vehicle)
     {
         // dd($vehicle);
         $similarPrice = Vehicle::where('price', '>=', $vehicle->price - 3000) // Ajusta el rango de precio según tus necesidades

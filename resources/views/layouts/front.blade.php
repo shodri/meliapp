@@ -40,11 +40,14 @@
                 <div class="navbar-collapse collapse" id="mainmenu-navbar">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="http://escobarusados.cerbero.ultrait.com.ar/usados/seleccion/especial">USADOS
+                            <a href="#">USADOS
                                 DESTACADOS</a>
                         </li>
                         <li>
-                            <a href="{{route('front.usados')}}">USADOS</a>
+                            <a href="{{route('front.vehicles', ['condition' => 'usado'])}}">USADOS</a>
+                        </li>
+                        <li>
+                            <a href="{{route('front.vehicles', ['condition' => 'nuevo'])}}">0 KM</a>
                         </li>
                         <li class="dropdown dropdown-large">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">QUIENES SOMOS</a>
@@ -57,20 +60,20 @@
                                             href="{{route('front.empresa')}}">NUESTRA
                                             EMPRESA</a></p>
                                     <p class="sublink"><a
-                                            href="http://escobarusados.cerbero.ultrait.com.ar/conozcanos/gestoria">GESTORÍA</a>
+                                            href="#">GESTORÍA</a>
                                     </p>
                                     <p class="sublink"><a
-                                            href="http://escobarusados.cerbero.ultrait.com.ar/contacto/motivo">CONTACTENOS</a>
+                                            href="#">CONTACTENOS</a>
                                     </p>
                                     <p class="sublink"><a
-                                            href="http://escobarusados.cerbero.ultrait.com.ar/sucursales">SUCURSALES</a>
+                                            href="#">SUCURSALES</a>
                                     </p>
                                     <br><br><br>
                                 </div>
                             </ul>
                         </li>
                         <li>
-                            <a href="http://escobarusados.cerbero.ultrait.com.ar/contacto/motivo">CONTÁCTENOS</a>
+                            <a href="#">CONTÁCTENOS</a>
                         </li>
                     </ul>
 
