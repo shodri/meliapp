@@ -89,6 +89,8 @@
                                     class="form-control select2 js-example-basic-single">
                                     <option value="" selected>Seleccione Version..</option>
                                 </select>
+                                <input type="hidden" name="version_name" id="version_name" value="">
+
                             </div>
 
                         </div>
@@ -340,6 +342,21 @@
                 }
             });
 
+            $('#versions').select2({
+                tags: true, // Habilitar la función de etiquetas
+                createTag: function(params) {
+                    return {
+                        id: numeroAleatorio,
+                        text: params.term,
+                        newOption: true
+                    };
+                }
+            }).on('select2:select', function (e) {
+                if (e.params.data.newOption) {
+                    console.log('Nueva opción seleccionada: ' + e.params.data.id);
+                }
+            });
+
 
             $('#brands').change(function() {
                 $('#brand_name').empty();
@@ -349,6 +366,11 @@
             $('#models').change(function() {
                 $('#model_name').empty();
                 $('#model_name').val($(this).find('option:selected').text().trim());
+            });
+
+            $('#versions').change(function() {
+                $('#version_name').empty();
+                $('#version_name').val($(this).find('option:selected').text().trim());
             });
         });
     </script>

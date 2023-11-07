@@ -137,7 +137,7 @@
         <div class="row">
             <div class="col-sm-12" style="text-align:center;">
                 <br><br>
-                <h2>Acerca de ESCOBAR</h2>
+                {{-- <h2>Acerca de ESCOBAR</h2> --}}
                 <h4>Descubrí nuestros servicios</h4>
 
             </div>

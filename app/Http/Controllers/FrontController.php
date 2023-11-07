@@ -112,6 +112,7 @@ class FrontController extends Controller
             'minAnio' => $minAnio,
             'maxKms' => $maxKms,
             'minKms' => $minKms,
+            'condition' => $condition,
         ]);
     }
 

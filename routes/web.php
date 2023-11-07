@@ -23,7 +23,7 @@ Route::match(['get', 'post'], 'usados', 'FrontController@usados')->name('front.u
 Route::get('usado/{vehicle}', 'FrontController@usado')->name('front.usado');
 
 Route::get('vehiculo/{vehicle}', 'FrontController@vehicle')->name('front.vehicle');
-Route::get('vehiculos/{condition}', 'FrontController@vehicles')->name('front.vehicles');
+Route::match(['get', 'post'], 'vehiculos/{condition}', 'FrontController@vehicles')->name('front.vehicles');
 
 
 Route::get('authorization', [LoginController::class, 'authorization'])->name('authorization');

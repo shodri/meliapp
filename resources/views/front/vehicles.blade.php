@@ -50,7 +50,7 @@
 
         <div class='container'>
 
-            <form class='form' role='form' id='form1' name='form1' method='post' action='{{route('front.usados')}}'>
+            <form class='form' role='form' id='form1' name='form1' method='post' action='{{route('front.vehicles' , ['condition' => $condition])}}'>
                 @csrf
                 <input type='hidden' id='page' name='page' value='1'>
 

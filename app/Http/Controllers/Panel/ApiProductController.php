@@ -156,6 +156,7 @@ class ApiProductController extends Controller
 					'motor' => (isset($item->attributes2["ENGINE"]->value_name)) ? $item->attributes2["ENGINE"]->value_name : "",
 					'steering' => (isset($item->attributes2["STEERING"]->value_name)) ? $item->attributes2["STEERING"]->value_name : "",
 					'doors' => (isset($item->attributes2["DOORS"]->value_name)) ? $item->attributes2["DOORS"]->value_name : "",
+					'traction' => (isset($item->attributes2["TRACTION_CONTROL"]->value_name)) ? $item->attributes2["TRACTION_CONTROL"]->value_name : "",
 					'condition' => (isset($item->attributes2["ITEM_CONDITION"]->value_name)) ? $item->attributes2["ITEM_CONDITION"]->value_name : "",
 					'status' => $item->status == 'active',
 					'created_at' => $item->date_created,

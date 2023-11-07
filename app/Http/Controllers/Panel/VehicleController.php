@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 
 use App\Models\Attribute;
+use App\Models\AttributeVehicle;
 use App\Models\Location;
 use App\Models\Fuel;
 use App\Models\Currency;
@@ -73,8 +74,10 @@ class VehicleController extends Controller
         $attributes = $request->input('attributes');
         $brand_id = $request->input('brand_id');
         $model_id = $request->input('model_id');
+        $version_id = $request->input('version_id');
         $brand_name = $request->input('brand_name');
         $model_name = $request->input('model_name');
+        $version_name = $request->input('version_name');
 
         $brand = Vehiclebrand::firstOrCreate(
             ['name' => strtoupper($brand_name)],
@@ -89,13 +92,29 @@ class VehicleController extends Controller
             ]
         );
 
+        $version = Vehicleversion::firstOrCreate(
+            ['name' => strtoupper($version_name)],
+            [
+                'model_id' => $model->id,
+                'name' => strtoupper($version_name),
+            ]
+        );
+
         $data = $request->validated();
-        $data['model_id'] = $model->id;
         $data['brand_id'] = $brand->id;
+        $data['model_id'] = $model->id;
+        $data['version_id'] = $version->id;
         $vehicle = Vehicle::create($data); 
 
-        foreach($attributes as $attribute){
-            Attribute::create(['parameter' => $attribute, 'value' => 'Sí', 'vehicle_id' => $vehicle->id]); 
+        foreach ($attributes as $attribute) {
+            
+            $attributeId = Attribute::where('meli_id' , $attribute)->first()->id;
+    
+            AttributeVehicle::create([
+                'vehicle_id' => $vehicle->id,
+                'attribute_id' => $attributeId,
+                'value' => 'Sí',
+            ]);
         }
 
 
@@ -243,7 +262,19 @@ class VehicleController extends Controller
                 ],
                 [
                     "id" => "DOORS",
-                    "value_name" => $vehicle->puertas,
+                    "value_name" => $vehicle->doors,
+                ],
+                [
+                    "id" => "STEERING",
+                    "value_name" => $vehicle->steering,
+                ],
+                [
+                    "id" => "ENGINE",
+                    "value_name" => $vehicle->motor,
+                ],
+                [
+                    "id" => "TRACTION",
+                    "value_name" => $vehicle->traction,
                 ]
             ]
         ];
